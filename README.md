@@ -35,5 +35,15 @@ python ipbin.py 192.168.0.1
 python ipbin.py 0xff
 ```
 
+### `subnet.py`
+Beregn netværks- og broadcast-adresser samt antal brugbare hosts ud fra en
+adresse og enten prefixlængde eller ønsket antal værter.
+
+Eksempel:
+```bash
+python subnet.py 192.168.1.5 --prefix 24
+python subnet.py 10.0.0.0 --hosts 50
+```
+
 ## Tak
 Jeg har fået hjælp af min gode ven ChatGPT.
