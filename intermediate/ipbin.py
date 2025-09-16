@@ -40,6 +40,17 @@ def parse_dotted(s: str):
     bases = []
     for p in parts:
         p_clean = p.replace('_','').strip()
+        # dotted IPv4 notation is most commonly decimal. If the token is
+        # composed of decimal digits we optimistically parse it as such and
+        # only fall back to the auto-detected base when the decimal value is
+        # outside the 0-255 range. This avoids interpreting typical inputs
+        # like ``10`` as the binary value 2.
+        if DEC_RE.fullmatch(p_clean):
+            v_dec = int(p_clean, 10)
+            if 0 <= v_dec <= 255:
+                octets.append(v_dec)
+                bases.append(10)
+                continue
         base, tok = detect_base_token(p_clean)
         try:
             v = int(tok, base)
