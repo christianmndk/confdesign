@@ -1,0 +1,5 @@
+beautifulsoup4>=4.12
+lxml
+napalm
+pyserial
+rich
