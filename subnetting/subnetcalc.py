@@ -32,13 +32,27 @@ def main():
 
     subs = list(base.subnets(new_prefix=args.target_prefix))
     print(f"Base: {base}  →  /{args.target_prefix}, Subnets: {len(subs)}")
-
+    
     header = ["#", "Subnet", "Network", "First usable", "Last usable", "Broadcast"]
-    print(" | ".join(header))
+    rows = []
+    
     for i, n in enumerate(subs):
-        f,l = hosts_range(n)
-        print(f"{i} | {n} | {n.network_address} | {f} | {l} | {n.broadcast_address}")
-
+        f, l = hosts_range(n)
+        rows.append([str(i), str(n), str(n.network_address), str(f), str(l), str(n.broadcast_address)])
+    
+    # beregn bredde pr. kolonne (max længde i kolonnen)
+    col_widths = [max(len(row[i]) for row in [header] + rows) for i in range(len(header))]
+    
+    # print header
+    header_line = " | ".join(header[i].ljust(col_widths[i]) for i in range(len(header)))
+    print(header_line)
+    print("-+-".join("-" * w for w in col_widths))
+    
+    # print rækker
+    for row in rows:
+        line = " | ".join(row[i].ljust(col_widths[i]) for i in range(len(row)))
+        print(line)
+    
     if args.csv:
         with open(args.csv, "w", newline="") as f:
             w = csv.writer(f); w.writerow(header)
