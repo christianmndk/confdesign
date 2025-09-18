@@ -143,39 +143,8 @@ def main():
             p.error("Kan ikke finde et prefix der opfylder antallet af hosts i det angivne base-net.")
 
     subs = list(base.subnets(new_prefix=args.target_prefix))
-    print(f"Base: {base}  →  /{args.target_prefix}, Subnets: {len(subs)}")
-<<<<<<< HEAD
-    
-    header = ["#", "Subnet", "Network", "First usable", "Last usable", "Broadcast"]
-    rows = []
-    
-    for i, n in enumerate(subs):
-        f, l = hosts_range(n)
-        rows.append([str(i), str(n), str(n.network_address), str(f), str(l), str(n.broadcast_address)])
-    
-    # beregn bredde pr. kolonne (max længde i kolonnen)
-    col_widths = [max(len(row[i]) for row in [header] + rows) for i in range(len(header))]
-    
-    # print header
-    header_line = " | ".join(header[i].ljust(col_widths[i]) for i in range(len(header)))
-    print(header_line)
-    print("-+-".join("-" * w for w in col_widths))
-    
-    # print rækker
-    for row in rows:
-        line = " | ".join(row[i].ljust(col_widths[i]) for i in range(len(row)))
-        print(line)
-    
-    if args.csv:
-        with open(args.csv, "w", newline="") as f:
-            w = csv.writer(f); w.writerow(header)
-            for i, n in enumerate(subs):
-                f,l = hosts_range(n)
-                w.writerow([i, str(n), str(n.network_address), f, l, str(n.broadcast_address)])
-        print(f"CSV gemt: {args.csv}")
-=======
+    #print(f"Base: {base}  →  /{args.target_prefix}, Subnets: {len(subs)}")
     output_subnets(subs, args.csv)
->>>>>>> vlsm
 
 if __name__ == "__main__":
     main()
